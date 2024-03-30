@@ -151,4 +151,5 @@ public interface KucoinPublicWSClient {
      */
     String onMarginFundingBook(KucoinAPICallback<KucoinEvent<FundingBookEvent>> callback, String... currency);
 
+    boolean isAlive();
 }

@@ -51,6 +51,7 @@ public class KucoinPrivateWSClientImpl extends BaseWebsocketImpl implements Kuco
         this.listener = listener;
         this.websocketPrivateAPI = websocketPublicAPI;
         listener.setPongListener(this);
+        listener.setFailureListener(this);
     }
 
     @Override
@@ -146,5 +147,10 @@ public class KucoinPrivateWSClientImpl extends BaseWebsocketImpl implements Kuco
     public String unsubscribe(PrivateChannelEnum channelEnum, String... symbols) {
         return super.unsubscribe(channelEnum.getTopicPrefix() + Arrays.stream(symbols).collect(Collectors.joining(",")),
                 true, true);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return alive;
     }
 }

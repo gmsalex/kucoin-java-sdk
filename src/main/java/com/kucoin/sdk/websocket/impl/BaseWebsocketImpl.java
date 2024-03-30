@@ -9,6 +9,7 @@ import com.kucoin.sdk.model.InstanceServer;
 import com.kucoin.sdk.rest.response.WebsocketTokenResponse;
 import com.kucoin.sdk.websocket.ChooseServerStrategy;
 import com.kucoin.sdk.websocket.event.KucoinEvent;
+import com.kucoin.sdk.websocket.listener.FailureListener;
 import com.kucoin.sdk.websocket.listener.PongListener;
 import lombok.SneakyThrows;
 import okhttp3.OkHttpClient;
@@ -28,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by chenshiwei on 2019/1/18.
  */
-public abstract class BaseWebsocketImpl implements Closeable, PongListener {
+public abstract class BaseWebsocketImpl implements Closeable, PongListener, FailureListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseWebsocketImpl.class);
 
@@ -40,6 +41,7 @@ public abstract class BaseWebsocketImpl implements Closeable, PongListener {
 
     private final Timer pingTimer = new Timer("SPOT-WS-PING-TIMER");
     private final AtomicInteger pongCounter = new AtomicInteger(0);
+    protected boolean alive = false;
 
     protected BaseWebsocketImpl(OkHttpClient client, WebSocketListener listener, ChooseServerStrategy chooseServerStrategy) {
         this.client = client;
@@ -53,7 +55,7 @@ public abstract class BaseWebsocketImpl implements Closeable, PongListener {
         String streamingUrl = String.format("%s", instanceServer.getEndpoint()
                 + "?token=" + websocketToken.getToken());
         this.webSocket = createNewWebSocket(streamingUrl);
-
+        this.alive = true;
         pingTimer.schedule(new TimerTask() {
             private volatile Integer counter;
             @SneakyThrows
@@ -119,6 +121,7 @@ public abstract class BaseWebsocketImpl implements Closeable, PongListener {
     @Override
     public void close() throws IOException {
         LOGGER.debug("Web Socket Close");
+        alive = false;
         if (webSocket != null) {
             webSocket.close(1000, "Normal closure"); // 1000 is a normal closure status code
         }
@@ -137,5 +140,11 @@ public abstract class BaseWebsocketImpl implements Closeable, PongListener {
     @Override
     public void onPong() {
         pongCounter.incrementAndGet();
+    }
+
+    @SneakyThrows
+    @Override
+    public void onFail() {
+        close();
     }
 }

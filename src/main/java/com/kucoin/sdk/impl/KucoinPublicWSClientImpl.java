@@ -45,6 +45,7 @@ public class KucoinPublicWSClientImpl extends BaseWebsocketImpl implements Kucoi
         this.listener = listener;
         this.websocketPublicAPI = websocketPublicAPI;
         listener.setPongListener(this);
+        listener.setFailureListener(this);
     }
 
     @Override
@@ -198,6 +199,11 @@ public class KucoinPublicWSClientImpl extends BaseWebsocketImpl implements Kucoi
         }
         String topic = APIConstants.API_MARGIN_FUNDINGBOOK_TOPIC_PREFIX + String.join(",", currency);
         return subscribe(topic, false, true);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return alive;
     }
 
 }

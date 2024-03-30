@@ -98,4 +98,6 @@ public interface KucoinPrivateWSClient {
      * Close client
      */
     void close() throws IOException;
+
+    boolean isAlive();
 }

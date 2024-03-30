@@ -37,6 +37,7 @@ public class KucoinPrivateWebsocketListener extends WebSocketListener {
     private Map<String, KucoinAPICallback> callbackMap = new HashMap<>();
     private Map<String, TypeReference> typeReferenceMap = new HashMap<>();
     private PongListener pongListener;
+    private FailureListener failureListener;
 
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
@@ -75,6 +76,9 @@ public class KucoinPrivateWebsocketListener extends WebSocketListener {
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
         LOGGER.error("Error on private socket", t);
+        if (failureListener != null) {
+            failureListener.onFail();
+        }
     }
 
     private JsonNode tree(String text) {

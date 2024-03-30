@@ -9,6 +9,8 @@ import com.kucoin.sdk.model.InstanceServer;
 import com.kucoin.sdk.rest.response.WebsocketTokenResponse;
 import com.kucoin.sdk.websocket.ChooseServerStrategy;
 import com.kucoin.sdk.websocket.event.KucoinEvent;
+import com.kucoin.sdk.websocket.listener.PongListener;
+import lombok.SneakyThrows;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
@@ -21,11 +23,12 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by chenshiwei on 2019/1/18.
  */
-public abstract class BaseWebsocketImpl implements Closeable {
+public abstract class BaseWebsocketImpl implements Closeable, PongListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseWebsocketImpl.class);
 
@@ -36,6 +39,7 @@ public abstract class BaseWebsocketImpl implements Closeable {
     private WebSocket webSocket;
 
     private final Timer pingTimer = new Timer("SPOT-WS-PING-TIMER");
+    private final AtomicInteger pongCounter = new AtomicInteger(0);
 
     protected BaseWebsocketImpl(OkHttpClient client, WebSocketListener listener, ChooseServerStrategy chooseServerStrategy) {
         this.client = client;
@@ -51,8 +55,16 @@ public abstract class BaseWebsocketImpl implements Closeable {
         this.webSocket = createNewWebSocket(streamingUrl);
 
         pingTimer.schedule(new TimerTask() {
+            private volatile Integer counter;
+            @SneakyThrows
             @Override
             public void run() {
+                if (counter == null) {
+                    counter = pongCounter.get();
+                } else if (counter == pongCounter.get()) {
+                    LOGGER.warn("No pong received. closing connection");
+                    BaseWebsocketImpl.this.close();
+                }
                 ping(UUID.randomUUID().toString());
             }
         },0, instanceServer.getPingInterval());
@@ -120,5 +132,10 @@ public abstract class BaseWebsocketImpl implements Closeable {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failure serializing object", e);
         }
+    }
+
+    @Override
+    public void onPong() {
+        pongCounter.incrementAndGet();
     }
 }

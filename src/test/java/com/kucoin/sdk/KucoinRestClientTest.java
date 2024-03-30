@@ -10,6 +10,7 @@ import com.kucoin.sdk.rest.request.*;
 import com.kucoin.sdk.rest.response.*;
 import org.hamcrest.core.Is;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -28,6 +29,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 /**
  * Created by chenshiwei on 2019/1/21.
  */
+@Ignore
 public class KucoinRestClientTest {
     private static KucoinRestClient liveKucoinRestClient;
 

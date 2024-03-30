@@ -50,6 +50,7 @@ public class KucoinPrivateWSClientImpl extends BaseWebsocketImpl implements Kuco
         super(client, listener, chooseServerStrategy);
         this.listener = listener;
         this.websocketPrivateAPI = websocketPublicAPI;
+        listener.setPongListener(this);
     }
 
     @Override

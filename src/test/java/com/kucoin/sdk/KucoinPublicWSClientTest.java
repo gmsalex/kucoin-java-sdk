@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.core.Is;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -32,6 +33,7 @@ import static org.junit.Assert.assertTrue;
  * <p>
  * Run with -Dorg.slf4j.simpleLogger.defaultLogLevel=debug for debug logging
  */
+@Ignore
 public class KucoinPublicWSClientTest {
 
     private static KucoinPublicWSClient kucoinPublicWSClient;

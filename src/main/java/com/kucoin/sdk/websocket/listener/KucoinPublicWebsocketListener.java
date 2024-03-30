@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -35,6 +36,7 @@ public class KucoinPublicWebsocketListener extends WebSocketListener {
 
     private Map<String, KucoinAPICallback> callbackMap = new HashMap<>();
     private Map<String, TypeReference> typeReferenceMap = new HashMap<>();
+    private PongListener pongListener;
 
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
@@ -48,6 +50,9 @@ public class KucoinPublicWebsocketListener extends WebSocketListener {
         LOGGER.debug("Parsed message OK");
 
         String type = jsonObject.get("type").asText();
+        if (Objects.equals(type,"pong") && pongListener != null) {
+            pongListener.onPong();
+        }
         if (!type.equals("message")) {
             LOGGER.debug("Ignoring message type ({})", type);
             return;

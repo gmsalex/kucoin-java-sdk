@@ -114,6 +114,7 @@ public class MarginOrderCreateRequest {
      * [Optional] The type of trading, including cross (cross mode) and isolated (isolated mode). It is set at cross by default.
      * The isolated mode will be released soon, so stay tuned!
      */
+    @Builder.Default
     private String marginModel = "cross";
 
 }

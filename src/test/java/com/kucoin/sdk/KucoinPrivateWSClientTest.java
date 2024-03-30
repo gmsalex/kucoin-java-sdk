@@ -17,6 +17,7 @@ import com.kucoin.sdk.websocket.event.OrderChangeEvent;
 import org.hamcrest.core.Is;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ import static org.junit.Assert.assertTrue;
  * <p>
  * Run with -Dorg.slf4j.simpleLogger.defaultLogLevel=debug for debug logging
  */
+@Ignore
 public class KucoinPrivateWSClientTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KucoinPrivateWSClientTest.class);

@@ -41,7 +41,7 @@ public abstract class BaseWebsocketImpl implements Closeable, PongListener, Fail
 
     private final Timer pingTimer = new Timer("SPOT-WS-PING-TIMER");
     private final AtomicInteger pongCounter = new AtomicInteger(0);
-    protected boolean alive = false;
+    protected volatile boolean alive = false;
 
     protected BaseWebsocketImpl(OkHttpClient client, WebSocketListener listener, ChooseServerStrategy chooseServerStrategy) {
         this.client = client;

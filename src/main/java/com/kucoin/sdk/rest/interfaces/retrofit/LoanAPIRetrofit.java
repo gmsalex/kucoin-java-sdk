@@ -3,25 +3,8 @@
  */
 package com.kucoin.sdk.rest.interfaces.retrofit;
 
-import com.kucoin.sdk.rest.request.BorrowRequest;
-import com.kucoin.sdk.rest.request.LendRequest;
-import com.kucoin.sdk.rest.request.RepayAllRequest;
-import com.kucoin.sdk.rest.request.RepaySingleRequest;
-import com.kucoin.sdk.rest.request.ToggleAutoLendRequest;
-import com.kucoin.sdk.rest.response.ActiveLendItem;
-import com.kucoin.sdk.rest.response.BorrowOutstandingResponse;
-import com.kucoin.sdk.rest.response.BorrowQueryResponse;
-import com.kucoin.sdk.rest.response.BorrowRepaidResponse;
-import com.kucoin.sdk.rest.response.BorrowResponse;
-import com.kucoin.sdk.rest.response.DoneLendItem;
-import com.kucoin.sdk.rest.response.KucoinResponse;
-import com.kucoin.sdk.rest.response.LastTradeResponse;
-import com.kucoin.sdk.rest.response.LendAssetsResponse;
-import com.kucoin.sdk.rest.response.LendResponse;
-import com.kucoin.sdk.rest.response.MarketItemResponse;
-import com.kucoin.sdk.rest.response.Pagination;
-import com.kucoin.sdk.rest.response.SettledTradeItem;
-import com.kucoin.sdk.rest.response.UnsettledTradeItem;
+import com.kucoin.sdk.rest.request.*;
+import com.kucoin.sdk.rest.response.*;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -39,6 +22,9 @@ public interface LoanAPIRetrofit {
 
     @POST("api/v1/margin/borrow")
     Call<KucoinResponse<BorrowResponse>> borrow(@Body BorrowRequest request);
+
+    @POST("api/v3/margin/borrow")
+    Call<KucoinResponse<BorrowV3Response>> borrow(@Body BorrowV3Request request);
 
     @GET("api/v1/margin/borrow")
     Call<KucoinResponse<BorrowQueryResponse>> queryBorrow(@Query("orderId") String orderId);
@@ -60,6 +46,9 @@ public interface LoanAPIRetrofit {
 
     @POST("api/v1/margin/repay/single")
     Call<KucoinResponse<Void>> repaySingle(@Body RepaySingleRequest request);
+
+    @POST("api/v3/margin/repay")
+    Call<KucoinResponse<RepayV3Response>> repaySingle(@Body RepayV3SingleRequest request);
 
     @POST("api/v1/margin/lend")
     Call<KucoinResponse<LendResponse>> lend(@Body LendRequest request);

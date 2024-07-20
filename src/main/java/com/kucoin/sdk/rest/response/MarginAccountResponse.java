@@ -19,11 +19,11 @@ public class MarginAccountResponse {
     @Data
     public static class Account {
         private String currency;
-        private BigDecimal total;
+        private BigDecimal totalBalance;
         private BigDecimal liability;
-        private BigDecimal available;
+        private BigDecimal availableBalance;
         private BigDecimal maxBorrowSize;
-        private BigDecimal hold;
+        private BigDecimal holdBalance;
         private boolean transferInEnabled;
         private boolean borrowEnabled;
     }

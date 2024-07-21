@@ -41,6 +41,12 @@ public class LoanAPIAdapter extends AuthRetrofitAPIImpl<LoanAPIRetrofit> impleme
     }
 
     @Override
+    public Pagination<InterestV3Response> interest() throws IOException {
+        return executeSync(getAPIImpl().interest());
+    }
+
+
+    @Override
     public BorrowQueryResponse queryBorrow(String orderId) throws IOException {
         return executeSync(getAPIImpl().queryBorrow(orderId));
     }

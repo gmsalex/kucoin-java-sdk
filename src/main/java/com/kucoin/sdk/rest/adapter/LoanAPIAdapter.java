@@ -41,8 +41,8 @@ public class LoanAPIAdapter extends AuthRetrofitAPIImpl<LoanAPIRetrofit> impleme
     }
 
     @Override
-    public Pagination<InterestV3Response> interest() throws IOException {
-        return executeSync(getAPIImpl().interest());
+    public Pagination<InterestV3Response> interest(Integer currentPage, Integer pageSize) throws IOException {
+        return executeSync(getAPIImpl().interest(currentPage, pageSize));
     }
 
 

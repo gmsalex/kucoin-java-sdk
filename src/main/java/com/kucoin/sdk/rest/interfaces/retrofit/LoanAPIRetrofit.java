@@ -27,7 +27,10 @@ public interface LoanAPIRetrofit {
     Call<KucoinResponse<BorrowV3Response>> borrow(@Body BorrowV3Request request);
 
     @GET("api/v3/margin/interest")
-    Call<KucoinResponse<Pagination<InterestV3Response>>> interest();
+    Call<KucoinResponse<Pagination<InterestV3Response>>> interest(
+            @Query("currentPage") Integer currentPage,
+            @Query("pageSize") Integer pageSize
+    );
 
     @GET("api/v1/margin/borrow")
     Call<KucoinResponse<BorrowQueryResponse>> queryBorrow(@Query("orderId") String orderId);

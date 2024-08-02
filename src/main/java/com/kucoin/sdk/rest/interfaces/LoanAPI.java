@@ -27,7 +27,7 @@ public interface LoanAPI {
 
     RepayV3Response repaySingle(RepayV3SingleRequest request) throws IOException;
 
-    Pagination<InterestV3Response> interest() throws IOException;
+    Pagination<InterestV3Response> interest(Integer currentPage, Integer pageSize) throws IOException;
 
     /**
      * Get Borrow Order

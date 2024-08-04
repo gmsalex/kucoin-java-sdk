@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 public class InterestV3Response {
 
-    private Date createdAt;
+    private Date createdTime;
     private String currency;
     private BigDecimal interestAmount;
     private BigDecimal dayRatio;
